@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class Enemy : MonoBehaviour
   
     public GameObject bulletPrefab;
     public GameObject platform;
+    public TextMeshProUGUI victoryText;
+    public TextMeshProUGUI enemyHealthText;
     public int health = 10;
     public int amountOfBulletNeeded = 2;
     public float shootingInterval = 10f;
@@ -29,10 +32,9 @@ public class Enemy : MonoBehaviour
         startStagger = Time.time;
     }
 
-
+    
     void Shoot()
     {
-
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.transform.forward = transform.forward;
     }
@@ -41,7 +43,12 @@ public class Enemy : MonoBehaviour
         health--;
         if (health <= 0) 
         {
-            //enemy dies;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+            StartCoroutine("ResetGame");
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
     }
     public void OnHit() 
@@ -64,10 +71,15 @@ public class Enemy : MonoBehaviour
 
                 transform.LookAt(FindObjectOfType<Player>().transform);
 
+                // Needs fix x)
+                transform.GetChild(transform.childCount - 1).localScale = Vector3.Lerp(new Vector3 (transform.GetChild(transform.childCount - 1).localScale.x, transform.GetChild(transform.childCount - 1).localScale.y, transform.GetChild(transform.childCount - 1).localScale.z), new Vector3(0, transform.GetChild(transform.childCount - 1).localScale.y, 0), Time.deltaTime * (Time.time - lastShotTime) / shootingInterval);
+
                 if (Time.time - lastShotTime >= shootingInterval)
                 {
                     Shoot();
                     lastShotTime = Time.time;
+                    // resets the mess happening on line 68
+                    transform.GetChild(transform.childCount - 1).localScale = new Vector3(1, 6.28423834f, 1);
                 }
              
                 break;
@@ -85,9 +97,28 @@ public class Enemy : MonoBehaviour
                 break;    
         }
 
-      
+        if (health >= 0)
+        {
+            enemyHealthText.text = "Eye's Health: " + health;
+
+        }
+        else
+        {
+            enemyHealthText.text = "Eye's Health: 0";
+        }
     }
 
+
+    IEnumerator ResetGame()
+    {
+        victoryText.text = "VICTORY!\nRestart in: 3";
+        yield return new WaitForSeconds(1);
+        victoryText.text = "VICTORY!\nRestart in: 2";
+        yield return new WaitForSeconds(1);
+        victoryText.text = "VICTORY!\nRestart in: 1";
+        yield return new WaitForSeconds(1);
+        Player.ResetGame();
+    }
 
 
 }
