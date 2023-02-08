@@ -36,11 +36,18 @@ public class Enemy : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.transform.forward = transform.forward;
     }
-
+    public void TakeDamage() 
+    {
+        health--;
+        if (health <= 0) 
+        {
+            //enemy dies;
+        }
+    }
     public void OnHit() 
     {
         amountOfHits++;
-        print(amountOfHits);
+       
         if (amountOfHits == amountOfBulletNeeded)
         {
             amountOfHits = 0;
@@ -73,7 +80,6 @@ public class Enemy : MonoBehaviour
 
                     startStagger = Time.time;
                     myState = eState.attack;
-
 
                 }
                 break;    
