@@ -971,7 +971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1082060367503734584, guid: 4e50a104ecddd2345b5e2ce19cd07313, type: 3}
-  speed: 0.01
+  speed: 5
   rotationSpeed: 1
 --- !u!54 &1347787818
 Rigidbody:

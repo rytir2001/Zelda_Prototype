@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Runtime.InteropServices;
+using System.Threading;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
 
     public GameObject bullet;
-    public float speed = 0.01f;
+    public float speed = 1.0f;
     public float rotationSpeed = 1f;
     // Start is called before the first frame update
     void Start()
@@ -17,22 +20,30 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        Vector3 movement = new Vector3();// transform.position;
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += new Vector3(0, 0, speed * 1f);
+            movement.z += 1f;
+            
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position += new Vector3(0, 0, speed * -1f);
+            movement.z -= 1f;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += new Vector3(speed * -1f, 0, 0);
+            movement.x -= 1f;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += new Vector3(speed * 1f, 0, 0);
+            movement.x += 1f;
         }
+        float tempSpeed = speed * Time.deltaTime;
+        movement *= tempSpeed;
+     
+        transform.position += movement;
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -41,7 +52,7 @@ public class Player : MonoBehaviour
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 temp = (mousePosition - transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(rotationSpeed * new Vector3(temp.x, 0.0f, temp.z));
+        transform.rotation = Quaternion.LookRotation(rotationSpeed * Time.deltaTime * new Vector3(temp.x, 0.0f, temp.z));
 
       
     }
