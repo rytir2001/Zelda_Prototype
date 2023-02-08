@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using System.Threading;
+using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 enum eEquiped
@@ -13,15 +15,18 @@ enum eEquiped
 public class Player : MonoBehaviour
 {
     Enemy enemy;
+    public TextMeshProUGUI healthText;
     public GameObject bullet;
     public float speed = 1.0f;
     public float rotationSpeed = 1f;
     public static int playerHealth = 3;
+    public int maxHealth = 3;
     eEquiped myEquipment = eEquiped.Shooting;
     bool isInContact = false;
     // Start is called before the first frame update
     void Start()
     {
+        playerHealth = maxHealth;
         enemy = FindObjectOfType<Enemy>();
     }
     
@@ -93,7 +98,10 @@ public class Player : MonoBehaviour
                 {
                     if (isInContact) 
                     {
-                        enemy.TakeDamage();
+                        if (enemy.health > 0)
+                        {
+                            enemy.TakeDamage();
+                        }
                         print(enemy.health);
                     }
 
@@ -102,15 +110,19 @@ public class Player : MonoBehaviour
                 break;
             
         }
-      
-       
 
-        if (playerHealth == 0 || transform.position.y <= -1)
+        healthText.text = "Health: " + playerHealth;
+
+        if (playerHealth <= 0 || transform.position.y <= -1)
         {
-            SceneManager.UnloadSceneAsync("Zelda");
-            SceneManager.LoadScene("Zelda");
+            ResetGame();
         }
       
+    }
+
+    public static void ResetGame()
+    {
+        SceneManager.LoadScene("Zelda");
     }
 
 }
