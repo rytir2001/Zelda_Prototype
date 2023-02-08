@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 enum eEquiped
@@ -13,20 +17,28 @@ enum eEquiped
 public class Player : MonoBehaviour
 {
     Enemy enemy;
+    public TextMeshProUGUI healthText;
+    private Animator myAnimator;
     public GameObject bullet;
     public float speed = 1.0f;
     public float rotationSpeed = 1f;
     public static int playerHealth = 3;
+    public int maxHealth = 3;
     eEquiped myEquipment = eEquiped.Shooting;
     bool isInContact = false;
     // Start is called before the first frame update
     void Start()
     {
+        myAnimator = transform.GetChild(0).GetComponent<Animator>();
+       
+       
+        playerHealth = maxHealth;
         enemy = FindObjectOfType<Enemy>();
     }
-    
+   
     void UpdateMovement()
     {
+
         Vector3 movement = new Vector3();// transform.position;
         if (Input.GetKey(KeyCode.W))
         {
@@ -50,7 +62,14 @@ public class Player : MonoBehaviour
 
         transform.position += movement;
 
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if(movement.x == 0 && movement.z ==0) 
+        {
+            myAnimator.SetBool("walking", false);
+        }
+        else myAnimator.SetBool("walking", true);
+        
+
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 temp = (mousePosition - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(rotationSpeed * Time.deltaTime * new Vector3(temp.x, 0.0f, temp.z));
     }
@@ -65,9 +84,26 @@ public class Player : MonoBehaviour
         }
         else isInContact = false;
     }
+    void shoot() 
+    {
+        //if (!AnimatorIsPlaying("HeroCharacter|Blowgun"))
+        {
+           // myAnimator.SetBool("shooting", true);
+            Instantiate(bullet, transform.position, transform.rotation);
+        }
+       
+    }
+    bool AnimatorIsPlaying()
+    {
+        return myAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+    }
+    bool AnimatorIsPlaying(string stateName)
+    {
+        return AnimatorIsPlaying() && myAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+    }
     void Update()
     {
-  
+        
         UpdateMovement();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -84,17 +120,26 @@ public class Player : MonoBehaviour
             case eEquiped.Shooting:
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    Instantiate(bullet, transform.position, transform.rotation);
+                    shoot();
+                    
                 }
+                //else myAnimator.SetBool("shooting", false);
+
                 break;
+         
             case eEquiped.Melee:
 
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     if (isInContact) 
                     {
-                        enemy.TakeDamage();
-                        print(enemy.health);
+                        //myAnimator.SetBool("melee", true);
+                        if (enemy.health > 0)
+                        {
+                            enemy.TakeDamage();
+                        }
+                       
+
                     }
 
                 }
@@ -102,15 +147,19 @@ public class Player : MonoBehaviour
                 break;
             
         }
-      
-       
 
-        if (playerHealth == 0 || transform.position.y <= -1)
+        healthText.text = "Health: " + playerHealth;
+
+        if (playerHealth <= 0 || transform.position.y <= -1)
         {
-            SceneManager.UnloadSceneAsync("Zelda");
-            SceneManager.LoadScene("Zelda");
+            ResetGame();
         }
       
+    }
+    
+    public static void ResetGame()
+    {
+        SceneManager.LoadScene("Zelda");
     }
 
 }
