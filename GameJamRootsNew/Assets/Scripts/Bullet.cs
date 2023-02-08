@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
-    private void Start()
-    {
-        transform.forward = FindObjectOfType<Player>().transform.forward.normalized;
-    }
+    public float speed = 0.1f;
 
     private void Update()
     {
-        transform.Translate(transform.forward * 0.01f);
+        Vector3 direction = transform.forward;
+        transform.position += direction * speed * Time.deltaTime;
     }
 
 }
