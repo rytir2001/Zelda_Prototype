@@ -29,14 +29,15 @@ public class Enemy : MonoBehaviour
         startStagger = Time.time;
     }
 
-   void Shoot()
+
+    void Shoot()
     {
 
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.transform.forward = transform.forward;
     }
 
-    void OnHit() 
+    public void OnHit() 
     {
         amountOfHits++;
         print(amountOfHits);

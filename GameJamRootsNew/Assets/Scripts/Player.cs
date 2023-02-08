@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     public GameObject bullet;
     public float speed = 1.0f;
     public float rotationSpeed = 1f;
+    public static int playerHealth = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +56,12 @@ public class Player : MonoBehaviour
         Vector3 temp = (mousePosition - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(rotationSpeed * Time.deltaTime * new Vector3(temp.x, 0.0f, temp.z));
 
+        if (playerHealth == 0 || transform.position.y <= -1)
+        {
+            SceneManager.UnloadSceneAsync("Zelda");
+            SceneManager.LoadScene("Zelda");
+        }
       
     }
+
 }

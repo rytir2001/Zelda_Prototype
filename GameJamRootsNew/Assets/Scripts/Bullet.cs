@@ -5,6 +5,12 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed = 0.1f;
+    Enemy enemy;
+
+    private void Start()
+    {
+        enemy = FindObjectOfType<Enemy>();
+    }
 
     private void Update()
     {
@@ -16,7 +22,7 @@ public class Bullet : MonoBehaviour
     {
         if (this.name.Contains("Var") && other.name.Contains("Player"))
         {
-            print("hit Player");
+            Player.playerHealth--;
         }
 
         if ((this.name.Contains("Var") && other.name.Contains("Eye")) || (!this.name.Contains("Var") && other.name.Contains("Player")) || other.name.Contains("Bullet"))
@@ -30,7 +36,7 @@ public class Bullet : MonoBehaviour
 
         if (!this.name.Contains("Var") && other.name.Contains("Eye"))
         {
-            print("hit Enemy");
+            enemy.OnHit();
         }
     }
 }
