@@ -970,7 +970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd279c690609bb4e9661bd52ae00b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1082060367503734584, guid: 4e50a104ecddd2345b5e2ce19cd07313, type: 3}
+  bullet: {fileID: 8663526763399193450, guid: 4e50a104ecddd2345b5e2ce19cd07313, type: 3}
   speed: 5
   rotationSpeed: 1
 --- !u!54 &1347787818
@@ -1044,5 +1044,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c17a3459f3f2f24fb68fce5fe03728a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 9117346307164268719, guid: b3056c62ed61afc438159ee990ca4422, type: 3}
+  bulletPrefab: {fileID: 5674688388770384422, guid: b3056c62ed61afc438159ee990ca4422, type: 3}
   shootingInterval: 2
