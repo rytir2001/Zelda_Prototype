@@ -1,2 +1,2 @@
 # Zelda_Prototype
-uhhh
+This is work of Jamie, Lisette, Costa and Jiri for workshop Horizon Zero Minimalisation
