@@ -438,6 +438,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47ae703376a1e5b4eb1aed96b732837e, type: 3}
+--- !u!1 &421507721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 47ae703376a1e5b4eb1aed96b732837e, type: 3}
+  m_PrefabInstance: {fileID: 382750402}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &428545542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5731229141766309534, guid: 0fda582d0d26e334685e3d4b7ad8ed5b, type: 3}
@@ -708,6 +713,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5640854091393235657, guid: ac1d54b65aec4944896b25151fa9c819, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966460162811254162, guid: ac1d54b65aec4944896b25151fa9c819, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1119,4 +1128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5674688388770384422, guid: b3056c62ed61afc438159ee990ca4422, type: 3}
+  platform: {fileID: 421507721}
+  health: 10
+  amountOfBulletNeeded: 2
   shootingInterval: 2
+  myState: 0
+  staggerDuration: 10
