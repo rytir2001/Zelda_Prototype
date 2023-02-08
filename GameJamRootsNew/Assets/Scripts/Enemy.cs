@@ -43,6 +43,10 @@ public class Enemy : MonoBehaviour
         health--;
         if (health <= 0) 
         {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
             StartCoroutine("ResetGame");
             gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
